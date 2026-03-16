@@ -28,9 +28,8 @@ AGE=$((NOW - LAST_CHECKED))
 if [ $AGE -gt 1800 ]; then
     # Check if sprite exists
     if sprite list 2>/dev/null | grep -q "^${SPRITE_NAME}$"; then
-        # Read window name via tmux
-        STATUS=$(sprite exec -s "$SPRITE_NAME" -- \
-            tmux display-message -t "$TMUX_SESSION:$AGENT_WINDOW" -F "#W" 2>/dev/null || echo "unknown")
+        # Read window name via tmux - use list-windows and grep since sprite exec doesn't return stdout well
+        STATUS=$(sprite exec -s "$SPRITE_NAME" -- tmux list-windows -t "$TMUX_SESSION" -F "#W" 2>/dev/null | grep "^${AGENT_WINDOW}" || echo "unknown")
 
         # Log silently
         echo "$(date +%Y-%m-%dT%H:%M:%S) $SPRITE_NAME $STATUS" >> "$LOG_FILE"
