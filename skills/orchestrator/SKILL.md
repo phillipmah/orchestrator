@@ -66,6 +66,23 @@ sprite exec -s kite-1 -- cat ~/.claude/history.jsonl | tail -10
 - **Hub-and-Spoke**: Workers report to orchestrator only
 - **Naming Convention**: `kite-1`, `kite-2`, `kite-3`...
 
+### Status Protocol
+
+Workers report status via tmux window names:
+
+| Window Name | Meaning |
+|-------------|---------|
+| `agent:waiting` | Claude started, awaiting input |
+| `agent:running` | Actively working |
+| `agent:completed` | Task done |
+| `agent:error` | Failed/blocked |
+
+Orchestrator checks every 30 minutes silently:
+```bash
+~/.sprite-orchestrator/check-status-silent.sh <sprite> <repo>
+# Logs to: /var/log/orchestrator-status.log
+```
+
 ### Commands Available
 
 | Script | Purpose |
