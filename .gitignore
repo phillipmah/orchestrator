@@ -1,0 +1,8 @@
+# Runtime state
+pool.json
+pool.json.tmp
+
+# Editor
+*~
+.swp
+.swo
