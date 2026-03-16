@@ -108,6 +108,16 @@ Start by checking the initial status of the worker.
 SUBAGENT_PROMPT
 )" > /tmp/orchestrator-monitor-$TASK_ID.log 2>&1 &
 
+# Step 6: Schedule silent 30-minute status checks
+echo "Scheduling silent status checks..."
+(
+    while true; do
+        sleep 1800  # 30 minutes
+        "$SCRIPT_DIR/check-status-silent.sh" "$WORKER_SPRITE" "$REPO_NAME"
+    done
+) &
+echo "Silent check PID: $!"
+
 echo ""
 echo "=== Task Dispatched ==="
 echo "Worker: $WORKER_SPRITE"
